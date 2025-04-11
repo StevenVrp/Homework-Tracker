@@ -1,6 +1,6 @@
 # 🚀 Productivity Suite  
 ​**​Homework Tracker with Integrated Focus Tools​**​  
-*Released: April 11, 2025 | By Steven Hsieh*
+*Released: April 11, 2025 | By Steven Hsieh (I'm only 12 years old!)*
 
 ## ✨ Key Features
 
