@@ -25,9 +25,8 @@
 - ​**​Lightweight:​**​ 100% client-side (no server needed)
 
 ## 🔧 How to Use
-1. ​**​Deploy:​**​ Host on any static web service (GitHub Pages, Netlify, etc.)
-2. ​**​Access:​**​ Open `index.html` in a browser (Chrome/Edge recommended)
-3. ​**​Data:​**​ Tasks save automatically
+1. ​**​Access:​**​ Open `index.html` in a browser (Chrome/Edge recommended)
+2. ​**​Data:​**​ Tasks save automatically
 
 © Homework Tracker  
 Copyright (c) 2025 Steven Hsieh (StevenVrp)  
