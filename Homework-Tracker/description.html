@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homework Tracker | Product Description</title>
+    <link href="https://fonts.loli.net/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --accent: #4895ef;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4cc9f0;
+            --warning: #f72585;
+            --text: #495057;
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: var(--light);
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            background: var(--gradient);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        h2 {
+            color: var(--secondary);
+            margin: 2rem 0 1rem;
+            font-size: 1.8rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--accent);
+        }
+        
+        h3 {
+            color: var(--primary);
+            margin: 1.5rem 0 0.5rem;
+            font-size: 1.4rem;
+        }
+        
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-top: 4px solid var(--accent);
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card h3 {
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .card h3 i {
+            margin-right: 0.5rem;
+            color: var(--accent);
+        }
+        
+        ul.features {
+            list-style-type: none;
+            margin: 1rem 0;
+        }
+        
+        ul.features li {
+            padding: 0. 0;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+        
+        ul.features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--success);
+            font-weight: bold;
+        }
+        
+        .tech-badge {
+            display: inline-block;
+            background: var(--light);
+            color: var(--primary);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin: 0.2rem;
+            border: 1px solid rgba(67, 97, 238, 0.2);
+        }
+        
+        .requirements {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+            border-left: 4px solid var(--accent);
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 2rem;
+            color: var(--text);
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+        }
+        .home-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(45deg, #ff9966, #ff5e62);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            z-index: 100;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s;
+        }
+        
+        .home-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        .home-icon {
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="index.html" class="home-btn" title="Home">
+                <span class="home-icon">⌂</span>
+            </a>
+            <h1><i class="fas fa-book"></i> Homework Tracker</h1>
+            <p class="subtitle">Your all-in-one productivity suite for managing tasks, time, and focus</p>
+            <p>Version 2.0.0 | Last Updated 2025-04-12</p>
+            <p>By Steven Hsieh</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <section>
+            <h2>Program Description</h2>
+            <p>This comprehensive productivity suite combines task management with powerful focus tools to enhance your study efficiency and time management. All components are built using modern web technologies with responsive design principles.</p>
+            
+            <div class="card-container">
+                <div class="card">
+                    <h3><i class="fas fa-tasks"></i> Homework Tracker</h3>
+                    <p>The central hub for managing your tasks with insightful progress analytics.</p>
+                    <ul class="features">
+                        <li>Add, complete, and delete tasks with ease</li>
+                        <li>Visual feedback with completion animations</li>
+                        <li>Interactive productivity analytics dashboard</li>
+                        <li>Data export capability for tracking progress</li>
+                        <li>One-click access to all integrated tools</li>
+                        <li>Reset functionality for fresh starts</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3><i class="fas fa-robot"></i> Nim Game</h3>
+                    <p>A strategic mathematical game for mental exercise and entertainment.</p>
+                    <ul class="features">
+                        <li>Intelligent AI opponent with optimal strategy</li>
+                        <li>Customizable game settings (1-100 piles)</li>
+                        <li>Visual feedback with flash animations</li>
+                        <li>Choose who starts first (player or AI)</li>
+                        <li>Interactive controls and intuitive interface</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3><i class="fas fa-clock"></i> Focus Timer</h3>
+                    <p>Customizable countdown timer with immersive visual feedback.</p>
+                    <ul class="features">
+                        <li>1-120 minute range for flexible sessions</li>
+                        <li>Visual progress indicator with circular countdown</li>
+                        <li>Multiple modes (Space and Beach themes)</li>
+                        <li>Celebration animations when timer completes</li>
+                        <li>Background tab support for accurate timing</li>
+                        <li>Reset button for quick adjustments</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <section>
+            <h2>Technical Implementation</h2>
+            
+            <h3>Homework Tracker</h3>
+            <div>
+                <span class="tech-badge">HTML5</span>
+                <span class="tech-badge">CSS3</span>
+                <span class="tech-badge">JavaScript</span>
+                <span class="tech-badge">LocalStorage</span>
+                <span class="tech-badge">Chart.js</span>
+            </div>
+            <ul class="features">
+                <li>Clean, minimalist UI with gradient buttons and card-based layout</li>
+                <li>CSS animations for visual feedback on task completion</li>
+                <li>Mobile-first responsive design that works on all devices</li>
+                <li>Efficiency algorithm: (Target Time / Actual Time) * 100</li>
+                <li>Automatic data updates every 5 minutes</li>
+                <li>Data persistence using browser localStorage</li>
+            </ul>
+            
+            <h3>Nim Game</h3>
+            <div>
+                <span class="tech-badge">CSS3 Animations</span>
+                <span class="tech-badge">Game Theory</span>
+                <span class="tech-badge">Dynamic UI</span>
+                <span class="tech-badge">AI Logic</span>
+            </div>
+            <ul class="features">
+                <li>Smooth transitions and animations using pure CSS</li>
+                <li>JavaScript event handlers for interactive gameplay</li>
+                <li>Responsive layout that adapts to screen size</li>
+                <li>AI uses Nim-sum algorithm for optimal play</li>
+                <li>Visual feedback with flash animations on AI moves</li>
+                <li>Customizable game settings via URL parameters</li>
+            
+            <h3>Focus Timer</h3>
+            <div>
+                <span class="tech-badge">Web Workers</span>
+                <span class="tech-badge">CSS Transforms</span>
+                <span class="tech-badge">RequestAnimationFrame</span>
+                <span class="tech-badge">Theme Switching</span>
+            </div>
+            <ul class="features">
+                <li>Web Worker ensures accurate timing in background tabs</li>
+                <li>Smooth animations using CSS transforms and RequestAnimationFrame</li>
+                <li>Interactive theme switching between Space and Beach modes</li>
+                <li>Visual fireworks celebration when timer completes</li>
+                <li>Dynamic particle effects for Space mode</li>
+                <li>Background image cycling for Beach mode</li>
+            </ul>
+        </section>
+        
+        <section class="requirements">
+            <h2>System Requirements</h2>
+            <ul class="features">
+                <li>Modern web browser (Chrome, Firefox, Edge, Safari)</li>
+                <li>JavaScript enabled</li>
+                <li>LocalStorage support for data persistence</li>
+                <li>Internet connection for external resources</li>
+            </ul>
+            
+            <h3>Deployment</h3>
+            <p>All components are client-side only and can be deployed to any static web hosting service. No server-side components required.</p>
+        </section>
+        
+        <section>
+            <h2>What's New in Version 2.0.0</h2>
+            <ul class="features">
+                <li>Fixed timer accuracy in background tabs using Web Workers</li>
+                <li>Added reset functionality to all components</li>
+                <li>Improved navigation with home buttons on all pages</li>
+                <li>Enhanced Nim Game with better visual feedback</li>
+                <li>Added multiple modes to the Focus Timer</li>
+                <li>Improved overall performance and stability</li>
+            </ul>
+        </section>
+        
+        <section>
+            <h2>Conclusion</h2>
+            <p>This suite provides a comprehensive productivity solution for students and professionals, combining task management with focused work sessions and strategic mental exercises. The integrated approach helps users maintain concentration while tracking their progress toward completion goals, with all tools accessible from a central hub.</p>
+        </section>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>Homework Tracker | Copyright&copy; 2025 Steven Hsieh (StevenVrp) | Licensed under the MIT License.</p>
+        </div>
+    </footer>
+</body>
+</html>
