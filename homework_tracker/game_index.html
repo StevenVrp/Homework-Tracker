@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nim Game</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --success-color: #2ecc71;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--dark-color);
+            min-height: 100vh;
+            position: relative;
+            padding-bottom: 60px;
+        }
+        
+        /* Watermark */
+        body::after {
+            content: "March 2025, Steven Hsieh";
+            position: fixed;
+            opacity: 0.08;
+            font-size: 4rem;
+            font-weight: 700;
+            font-family: 'Montserrat', sans-serif;
+            transform: rotate(-30deg) translate(-50%, -50%);
+            pointer-events: none;
+            z-index: -1;
+            top: 50%;
+            left: 50%;
+            color: var(--dark-color);
+            animation: watermark 20s infinite ease-in-out;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        @keyframes watermark {
+            0% { transform: rotate(-30deg) translate(-50%, -50%) scale(1); opacity: 0.08; }
+            50% { transform: rotate(-25deg) translate(-50%, -50%) scale(1.05); opacity: 0.12; }
+            100% { transform: rotate(-30deg) translate(-50%, -50%) scale(1); opacity: 0.08; }
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+        
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--secondary-color);
+            font-size: 2.5rem;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            border-radius: 2px;
+        }
+        
+        .config-panel {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .input-group {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .input-group label {
+            font-weight: 600;
+            color: var(--secondary-color);
+            min-width: 150px;
+        }
+        
+        input[type="number"] {
+            width: 80px;
+            padding: 10px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        
+        input[type="number"]:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+        
+        button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        button:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .start-btn {
+            display: block;
+            width: 100%;
+            margin-top: 30px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            font-size: 1.1rem;
+            padding: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .start-btn:hover {
+            background: linear-gradient(90deg, #2980b9, #c0392b);
+        }
+        
+        #heapConfigs {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .heap-input {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #eee;
+            transition: all 0.3s;
+        }
+        
+        .heap-input:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
+            border-color: var(--primary-color);
+        }
+        
+        .heap-input label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+        
+        .heap-input input {
+            width: 100%;
+        }
+        
+        footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            background: rgba(0,0,0,0.9);
+            color: white;
+            padding: 15px;
+            font-size: 0.9rem;
+            z-index: 10;
+        }
+        
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            position: relative;
+        }
+        
+        .modal-header {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .modal-header h2 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .modal-body {
+            line-height: 1.6;
+        }
+        
+        .modal-body h3 {
+            color: var(--primary-color);
+            margin: 15px 0 10px;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .modal-body ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .modal-body li {
+            margin-bottom: 8px;
+        }
+        
+        .rules-btn {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            z-index: 10;
+        }
+        
+        .rules-btn:hover {
+            background: #c0392b;
+            transform: scale(1.1);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                margin: 20px;
+                padding: 20px;
+            }
+            
+            #heapConfigs {
+                grid-template-columns: 1fr;
+            }
+            
+            .input-group {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .modal-content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Nim Game Settings</h1>
+        <div class="config-panel">
+            <div class="input-group">
+                <label>Number of Piles (1-100):</label>
+                <input type="number" id="heapCount" min="1" max="100" value="3">
+                <button onclick="generateHeaps()">Generate Piles</button>
+            </div>
+            <div id="heapConfigs"></div>
+            <button class="start-btn" onclick="startGame()">Start Game</button>
+        </div>
+    </div>
+
+    <!-- Rules Button -->
+    <button class="rules-btn" onclick="showRules()">?</button>
+
+    <!-- Rules Modal -->
+    <div id="rulesModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Nim Game Rules</h2>
+                <button class="close-btn" onclick="hideRules()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <h3>Objective</h3>
+                <p>The goal of Nim is to be the player who removes the last object from the game board.</p>
+                
+                <h3>Gameplay</h3>
+                <ul>
+                    <li>The game starts with several piles (heaps) of objects (usually stones, coins, or matches).</li>
+                    <li>Players alternate turns, removing one or more objects from a single pile.</li>
+                    <li>On each turn, a player must remove at least one object.</li>
+                    <li>All objects removed must come from the same pile.</li>
+                    <li>The player who removes the last object wins the game.</li>
+                </ul>
+                
+                <h3>Variations</h3>
+                <ul>
+                    <li><strong>Normal Play:</strong> The player to take the last object wins (this is the standard version).</li>
+                    <li><strong>Misère Play:</strong> The player to take the last object loses (this is more challenging).</li>
+                </ul>
+                
+                <h3>Strategy</h3>
+                <p>Nim has a known mathematical strategy based on binary digital sums (Nim-sum). A player can always win from a winning position if they play optimally.</p>
+                
+                <h3>History</h3>
+                <p>Nim is one of the oldest known mathematical games, with origins dating back to ancient China. The modern name comes from the German word "nimm" meaning "take".</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        Homework Tracker | Nim Game | Copyright (&copy;) 2025 Steven Hsieh (StevenVrp) | Licensed under the MIT License.
+    </footer>
+
+    <script>
+        function generateHeaps() {
+            const count = parseInt(document.getElementById('heapCount').value) || 3;
+            let html = '';
+            for(let i=1; i<=count; i++) {
+                html += `
+                    <div class="heap-input">
+                        <label>Pile ${i} Items (1-15):</label>
+                        <input type="number" min="1" max="15" value="${Math.min(15, 5+i)}">
+                    </div>
+                `;
+            }
+            document.getElementById('heapConfigs').innerHTML = html;
+        }
+
+        function startGame() {
+            const inputs = document.querySelectorAll('#heapConfigs input');
+            const heaps = Array.from(inputs).map(input => 
+                Math.min(15, Math.max(1, parseInt(input.value) || 1))
+            );
+            window.location.href = `game.html?heaps=${heaps.join(',')}`;
+        }
+        
+        // Modal functions
+        function showRules() {
+            document.getElementById('rulesModal').style.display = 'flex';
+        }
+        
+        function hideRules() {
+            document.getElementById('rulesModal').style.display = 'none';
+        }
+        
+        // Close modal when clicking outside of it
+        window.onclick = function(event) {
+            const modal = document.getElementById('rulesModal');
+            if (event.target == modal) {
+                hideRules();
+            }
+        }
+        
+        // Show rules when page loads
+        window.onload = function() {
+            generateHeaps();
+            setTimeout(showRules, 300); // Small delay for better UX
+        };
+    </script>
+</body>
+</html>

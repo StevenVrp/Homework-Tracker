@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timer with Reset</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            font-family: 'Arial', sans-serif;
+            transition: background 0.5s ease;
+        }
+        
+        body.space-mode {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+        }
+        
+        body.beach-mode {
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        
+        .countdown-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .countdown-circle {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: conic-gradient(
+                #00bfff 0%,
+                #0080ff 25%,
+                #0055ff 50%,
+                #002aff 75%,
+                #0000ff 100%
+            );
+            box-shadow: 0 0 30px rgba(0, 100, 255, 0.5);
+            transform: rotate(-90deg);
+            z-index: 1;
+        }
+        
+        .countdown-inner {
+            position: absolute;
+            width: 90%;
+            height: 90%;
+            border-radius: 50%;
+            background: rgba(22, 33, 62, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 2;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+        
+        .time-display {
+            font-size: 4rem;
+            font-weight: bold;
+            color: white;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+            margin-bottom: 10px;
+        }
+        
+        .time-label {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.7);
+            animation: float 15s infinite linear;
+        }
+        
+        @keyframes float {
+            0% {
+                transform:(0) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-1000px) translateX(200px);
+                opacity: 0;
+            }
+        }
+        
+        .input-container {
+            position: absolute;
+            bottom: 20%;
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .input-container.hidden {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+        }
+        
+        input {
+            padding: 10px 15px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.9);
+        }
+        
+        button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 0 10px rgba(0, 100, 255, 0.5);
+        }
+        
+        #start-btn {
+            background: linear-gradient(45deg, #00bfff, #0055ff);
+        }
+        
+        #reset-btn {
+            background: linear-gradient(45deg, #ff5e62, #ff9966);
+            display: none;
+            position: absolute;
+            bottom: 20%;
+            z-index: 4;
+        }
+        
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(0, 100, 255, 0.8);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes fireworks {
+            0% { transform: scale(0); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+
+        .firework {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: white;
+            animation: fireworks 1s ease-out forwards;
+            z-index: 10;
+        }
+        
+        .mode-switcher {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+        }
+        
+        .mode-btn {
+            margin-bottom: 10px;
+            padding: 8px 15px;
+            font-size: 0.9rem;
+        }
+        
+        .space-btn {
+            background: linear-gradient(45deg, #1a1a2e, #16213e);
+        }
+        
+        .beach-btn {
+            background: linear-gradient(45deg, #ff9966, #ff5e62);
+        }
+    </style>
+</head>
+<body class="space-mode">
+    <div class="particles" id="particles"></div>
+    
+    <div class="mode-switcher">
+        <button class="mode-btn space-btn" id="space-btn">Space Mode</button>
+        <button class="mode-btn beach-btn" id="beach-btn">Beach Mode</button>
+    </div>
+    
+    <div class="countdown-container">
+        <div class="countdown-circle" id="countdown-circle"></div>
+        <div class="countdown-inner">
+            <div class="time-display" id="time-display">00:00</div>
+            <div class="time-label">Remaining Time</div>
+        </div>
+        
+        <div class="input-container" id="input-container">
+            <input type="number" id="minutes-input" placeholder="Minutes" min="1" max="120">
+            <button id="start-btn">Start</button>
+        </div>
+        <button id="reset-btn">Reset</button>
+    </div>
+
+    <div id="bilibili-audio" style="display: none;"></div>
+
+    <script>
+        const beachImages = [
+            'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+            'https://images.unsplash.com/photo-1519046904884-53103b34b206?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+            'https://images.unsplash.com/photo-1506929562872-bb421503ef21?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+            'https://images.unsplash.com/photo-1437622368342-7a3d73a34c8f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+            'https://images.unsplash.com/photo-1519608487953-e999c86e7455?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+            'https://images.unsplash.com/photo-1468413253725-0d5181091126?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
+        ];
+        
+        let currentMode = 'space';
+        let beachImageIndex = 0;
+        let animationId;
+        let totalSeconds;
+        let remainingSeconds;
+        let startTime;
+        let lastUpdateTime;
+        let timeDisplay;
+        let currentAudioId = null;
+        let isTimerRunning = false;
+
+        function switchToSpaceMode() {
+            document.body.className = 'space-mode';
+            currentMode = 'space';
+            document.getElementById('particles').style.display = 'block';
+            document.body.style.backgroundImage = '';
+            document.removeEventListener('keydown', handleBeachKeyPress);
+        }
+        
+        function switchToBeachMode() {
+            document.body.className = 'beach-mode';
+            currentMode = 'beach';
+            updateBeachBackground();
+            document.getElementById('particles').style.display = 'none';
+            document.addEventListener('keydown', handleBeachKeyPress);
+        }
+
+        function updateBeachBackground() {
+            document.body.style.backgroundImage = `url('${beachImages[beachImageIndex]}')`;
+        }
+        
+        function handleBeachKeyPress(e) {
+            if (currentMode !== 'beach') return;
+            
+            if (e.key === 'ArrowRight') {
+                beachImageIndex = (beachImageIndex + 1) % beachImages.length;
+                updateBeachBackground();
+            } else if (e.key === 'ArrowLeft') {
+                beachImageIndex = (beachImageIndex - 1 + beachImages.length) % beachImages.length;
+                updateBeachBackground();
+            }
+        }
+        
+        function loadBilibiliAudio(videoId) {
+            const container = document.getElementById('bilibili-audio');
+            container.innerHTML = '';
+            
+            if ((currentMode === 'space' && videoId === 'BV1b7mNYXEsQ') || 
+                (currentMode === 'beach' && videoId === 'BV1V8d2YNEcN')) {
+                container.innerHTML = `
+                    <iframe 
+                        src="https://www.bilibili.com/video/${videoId}" 
+                        style="width:0;height:0;border:none;" 
+                        allow="autoplay">
+                    </iframe>
+                `;
+            }
+        }
+        
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                const x = Math.random() * 100;
+                const y = Math.random() * 100;
+                const size = Math.random() * 4 + 2;
+                const delay = Math.random() * 15;
+                const duration = Math.random() * 10 + 10;
+                
+                particle.style.left = `${x}%`;
+                particle.style.top = `${y}%`;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.animationDelay = `${delay}s`;
+                particle.style.animationDuration = `${duration}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        function createFireworks() {
+            const container = document.querySelector('.countdown-container');
+            const colors = ['#ff0000', '#ffff00', '#00ff00', '#00ffff', '#0000ff', '#ff'];
+            
+            for (let i = 0; i < 30; i++) {
+                const firework = document.createElement('div');
+                firework.classList.add('firework');
+                
+                const x = Math.random() * 100;
+                const y = Math.random() * 100;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                
+                firework.style.left = `${x}%`;
+                firework.style.top = `${y}%`;
+                firework.style.background = color;
+                firework.style.animationDelay = `${Math.random() * 0.5}s`;
+                
+                container.appendChild(firework);
+                
+                firework.addEventListener('animationend', () => {
+                    firework.remove();
+                });
+            }
+        }
+        
+        function resetTimer() {
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+                animationId = null;
+            }
+            
+            timeDisplay.textContent = "00:00";
+            timeDisplay.style.animation = "none";
+            document.getElementById('countdown-circle').style.background = `conic-gradient(
+                #00bfff 0%,
+                #0080ff 25%,
+                #0055ff 50%,
+                #002aff 75%,
+                #0000ff 100%
+            )`;
+            
+            document.getElementById('bilibili-audio').innerHTML = '';
+            isTimerRunning = false;
+            
+            document.getElementById('reset-btn').style.display = 'none';
+            document.getElementById('input-container').classList.remove('hidden');
+            document.getElementById('minutes-input').value = '';
+        }
+        
+        function initCountdown() {
+            createParticles();
+            
+            const startBtn = document.getElementById('start-btn');
+            const resetBtn = document.getElementById('reset-btn');
+            const minutesInput = document.getElementById('minutes-input');
+            timeDisplay = document.getElementById('time-display');
+            const countdownCircle = document.getElementById('countdown-circle');
+            const inputContainer = document.getElementById('input-container');
+            
+            startBtn.addEventListener('click', () => {
+                const minutes = parseInt(minutesInput.value);
+                
+                if (isNaN(minutes) || minutes < 1 || minutes > 120) {
+                    alert('Please enter a number between 1 and 120 minutes');
+                    return;
+                }
+                
+                inputContainer.classList.add('hidden');
+                resetBtn.style.display = 'block';
+                
+                if (animationId) {
+                    cancelAnimationFrame(animationId);
+                }
+                
+                totalSeconds = minutes * 60;
+                remainingSeconds = totalSeconds;
+                startTime = Date.now();
+                lastUpdateTime = startTime;
+                isTimerRunning = true;
+                
+                if (currentMode === 'space') {
+                    loadBilibiliAudio('BV1b7mNYXEsQ');
+                } else {
+                    loadBilibiliAudio('BV1V8d2YNEcN');
+                }
+                
+                updateDisplay();
+                animateCountdown();
+            });
+            
+            resetBtn.addEventListener('click', resetTimer);
+            
+            function animateCountdown() {
+                const now = Date.now();
+                const elapsed = now - lastUpdateTime;
+                
+                if (elapsed >= 1000) {
+                    remainingSeconds--;
+                    lastUpdateTime = now;
+                    updateDisplay();
+                    
+                    if (remainingSeconds <= 0) {
+                        timeDisplay.textContent = "00:00";
+                        countdownCircle.style.background = `conic-gradient(#0000ff 100%)`;
+                        
+                        document.getElementById('bilibili-audio').innerHTML = '';
+                        isTimerRunning = false;
+                        
+                        timeDisplay.style.animation = "pulse 1s infinite";
+                        createFireworks();
+                        resetBtn.style.display = 'none';
+                        inputContainer.classList.remove('hidden');
+                        cancelAnimationFrame(animationId);
+                        return;
+                    }
+                }
+                
+                const progress = 1 - (remainingSeconds / totalSeconds);
+                countdownCircle.style.background = `conic-gradient(
+                    #00bfff 0%,
+                    #0080ff ${Math.min(progress * 100, 25)}%,
+                    #0055ff ${Math.min(progress * 100, 50)}%,
+                    #002aff ${Math.min(progress * 100, 75)}%,
+                    #0000ff ${Math.min(progress * 100, 100)}%
+                )`;
+                
+                animationId = requestAnimationFrame(animateCountdown);
+            }
+            
+            function updateDisplay() {
+                const minutes = Math.floor(remainingSeconds / 60);
+                const seconds = remainingSeconds % 60;
+                timeDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }
+        }
+        
+        window.onload = function() {
+            initCountdown();
+            document.getElementById('space-btn').addEventListener('click', switchToSpaceMode);
+            document.getElementById('beach-btn').addEventListener('click', switchToBeachMode);
+            switchToSpaceMode();
+        };
+    </script>
+</body>
+</html>
