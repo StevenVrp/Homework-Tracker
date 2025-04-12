@@ -1,68 +1,55 @@
-# Productivity Suite  
-​**​Homework Tracker with Integrated Focus Tools​**​  
+# Homework Tracker Suite
 
-​**​Version 2.1.1**​ | Last Updated 2025-04-12  
-By Steven Hsieh  
+A comprehensive productivity suite for managing tasks, time, and focus. Includes three integrated tools:
 
-## Program Description  
-This productivity suite consists of three integrated web applications designed to enhance study efficiency and time management. All components are built using modern web technologies with responsive design principles.  
+1. ​**​Homework Tracker​**​ - Task management with progress analytics
+2. ​**​Nim Game​**​ - Strategic mathematical game for mental exercise
+3. ​**​Focus Timer​**​ - Customizable countdown timer with immersive feedback
 
-### Homework Tracker  
-The main application featuring task management with progress analytics.  
-- Add, complete, and delete tasks  
-- Visual feedback with animations  
-- Productivity analytics dashboard  
-- Data export capability  
-- Integrated access to other tools  
+## Features
 
-### Nim Game  
-A mathematical game for logic training and entertainment.  
-- Intelligent AI Algorithms  
-- Interactive control  
-- Synchronized effects  
+### Homework Tracker
+- Add, complete, and delete tasks
+- Visual feedback with animations
+- Productivity analytics dashboard
+- Data export capability
+- Reset functionality
 
-### Pomodoro Timer  
-Customizable countdown timer with immersive feedback.  
-- 1-120 minute range  
-- Visual progress indicator  
-- Multiple modes  
-- Celebration animations  
-- Audio integration  
+### Nim Game
+- Intelligent AI opponent
+- Customizable game settings (1-100 piles)
+- Visual feedback with flash animations
+- Choose who starts first
 
-## Technical Implementation  
-### Homework Tracker  
-- ​**​Technologies​**​: HTML5, CSS3, JavaScript, LocalStorage  
-- Clean, minimalist UI with gradient buttons and card-based layout  
-- CSS animations for visual feedback  
-- Mobile-first responsive design  
-- Efficiency algorithm: `(Target Time / Actual Time) * 100`  
-- Automatic data updates every 5 minutes  
+### Focus Timer
+- 1-120 minute range
+- Visual progress indicator
+- Multiple modes (Space and Beach themes)
+- Accurate background timing
+- Celebration animations
 
-### Nim Game  
-- ​**​Technologies​**​: CSS3 @keyframes, HTML5, JavaScript  
-- Smooth transitions and animations by CSS and HTML  
-- JavaScript click handler for animation control  
-- Logical, responsive layout  
-- AI logistics on every scenario calculating up to 100 piles of objects  
+## Technologies Used
+- HTML5, CSS3, JavaScript
+- LocalStorage for data persistence
+- Chart.js for analytics
+- Web Workers for background timing
+- Pure CSS animations
 
-### Pomodoro Timer  
-- ​**​Technologies​**​: RequestAnimationFrame, CSS Transforms, DOM Manipulation  
-- Canvas-free animations using CSS transforms  
-- Smooth timing with RequestAnimationFrame  
-- Programmatic DOM manipulation for visual effects  
+## Installation
+No installation required! Simply open `index.html` in any modern web browser.
 
-## System Requirements  
-- Modern web browser (Chrome, Firefox, Edge, Safari)  
-- JavaScript enabled  
-- LocalStorage support for data persistence  
-- Internet connection for external resources  
+## Usage
+1. ​**​Task Management​**​: Add your tasks and mark them complete
+2. ​**​Analytics​**​: View your productivity trends in the graph section
+3. ​**​Nim Game​**​: Play against the AI to sharpen your strategic thinking
+4. ​**​Focus Timer​**​: Set a timer for focused work sessions
 
-## Deployment  
-All components are client-side only and can to any static web hosting service. No server-side components required.  
+## Recent Updates (v2.0.0)
+- Fixed timer accuracy in background tabs
+- Added reset functionality to all components
+- Improved navigation with home buttons
+- Enhanced Nim Game visuals
+- Added multiple timer modes
 
-## Conclusion  
-This suite provides a comprehensive productivity solution for students and professionals, combining task management with focused work sessions and time tracking. The integrated approach helps users maintain concentration while tracking their progress toward completion goals.  
-
----  
-​**​Productivity Suite Documentation​**​ | Built with HTML, CSS, and JavaScript  
-​**​Homework Tracker​**​ | Copyright (c) 2025 Steven Hsieh (StevenVrp) | Licensed under the MIT License  
+## License
+MIT License - Copyright&copy; 2025 Steven Hsieh (StevenVrp)
