@@ -1,7 +1,7 @@
 # Productivity Suite  
 ​**​Homework Tracker with Integrated Focus Tools​**​  
 
-​**​Version 2.0.0​**​ | Last Updated 2025-04-12  
+​**​Version 2.1.0​**​ | Last Updated 2025-04-12  
 By Steven Hsieh  
 
 ## Program Description  
