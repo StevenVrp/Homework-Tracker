@@ -1,12 +1,12 @@
 # 🚀 Productivity Suite  
 ​**​Homework Tracker with Integrated Focus Tools​**​  
-*Released: April 11, 2025 | By Steven Hsieh (I'm only 12 years old!)*
+*Released: April 11, 2025 | Updated: April 12, 2025 | By Steven Hsieh*
 
 ## ✨ Key Features
 
 ### 📚 Homework Tracker
 - ✅ Add, complete, and delete tasks with progress analytics
-- 📊 Productivity dashboard with visual feedback (Chart.js)
+- 📊 Productivity dashboard with visual feedback 
 - 📥 Export task data via LocalStorage
 
 ### 🎯 Focus Animation
@@ -14,7 +14,7 @@
 - 🔄 Interactive toggle for distraction-free sessions
 
 ### ⏱️ Pomodoro Timer
-- ⏲️ Customizable 1-60 minute timer
+- ⏲️ Customizable 1-200 minute timer
 - ✨ Floating particle effects + celebration animations
 - 🔉 Optional audio integration
 
