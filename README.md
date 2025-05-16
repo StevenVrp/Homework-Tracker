@@ -44,12 +44,8 @@ No installation required! Simply open `index.html` in any modern web browser.
 3. ​**​Nim Game​**​: Play against the AI to sharpen your strategic thinking
 4. ​**​Focus Timer​**​: Set a timer for focused work sessions
 
-## Recent Updates (v2.0.0)
-- Fixed timer accuracy in background tabs
-- Added reset functionality to all components
-- Improved navigation with home buttons
-- Enhanced Nim Game visuals
-- Added multiple timer modes
+## Recent Updates (v2.0.1)
+- Made tasks draggable
 
 ## License
 MIT License - Copyright&copy; 2025 Steven Hsieh (StevenVrp)
